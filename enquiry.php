@@ -7,19 +7,9 @@ $msg = '';
 if(isset($_REQUEST['action']) && $_REQUEST['action']=="delete")
 {
 	$id= (isset($_REQUEST['id']))?$_REQUEST['id']:'';
-	$sql ="delete from category where id ='$id'";
+	$sql ="delete from enquiry where id ='$id'";
 	mysql_query($sql);	
-	header("location:category.php?act=2");
-}
-
-
-
-if(isset($_REQUEST['act']) && $_REQUEST['act']=='1')
-{
-$msg = '<div class="alert alert-success">
-<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <strong>Success!</strong> Category Add Successfully.
-</div>';
+	header("location:enquiry.php?act=2");
 }
 
 
@@ -27,17 +17,11 @@ if(isset($_REQUEST['act']) && $_REQUEST['act']=='2')
 {
 $msg = '<div class="alert alert-success">
 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <strong>Success!</strong> Category Delete Successfully.
+  <strong>Success!</strong> enquiry Delete Successfully.
 </div>';
 }
 
-if(isset($_REQUEST['act']) && $_REQUEST['act']=='3')
-{
-$msg = '<div class="alert alert-success">
-<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <strong>Success!</strong> Category Update Successfully.
-</div>';
-}
+
 
 
 ?>
@@ -74,7 +58,7 @@ $msg = '<div class="alert alert-success">
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="page-head-line">Manufacturer </h1>
+                        <h1 class="page-head-line">enquiry</h1>
                         
                     </div>
                 </div>
@@ -85,7 +69,7 @@ $msg = '<div class="alert alert-success">
                      <!--    Hover Rows  -->
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Manufacturer
+                         enquiry
                         </div>
                         <div class="panel-body">
 						<?php
@@ -95,14 +79,21 @@ $msg = '<div class="alert alert-success">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                            <th>Manufacturer Name</th>
+										    <th>Name</th>
                                             
-                                            <th>Action</th>
+											<th>Contact</th>
+											<th>Email Id</th>
+											
+											<th>pid</th>
+											
+											<th>isread</th>
+											<th>Action</th>
+                                            
                                         </tr>
                                     </thead>
          <tbody>
 		 <?php
-		 $sql = "select * from category";
+		 $sql = "select name,contactno,emailid,isread,enquiry.id as eid,productname from enquiry, product where enquiry.pid = product.id";
 		 $q = mysql_query($sql);
 		 if(mysql_num_rows($q)>0)
 		 {
@@ -110,14 +101,19 @@ $msg = '<div class="alert alert-success">
 		   {
 		 ?>
                     <tr >
-                    <td><?php echo $r['categoryname'];?></td>
-                   
+                    <td><?php echo $r['name'];?></td>
+                    <td><?php echo $r['contactno'];?></td>
+					<td><?php echo $r['emailid'];?></td>
+					
+					<td><?php echo $r['productname'];?></td>
+					<td><?php echo $r['isread'];?></td>
+					
                     <td class="center">
-		<a href="editcategory.php?id=<?php echo $r['id']; ?>" class="myasimple" title="Edit">
-		 <img src="img/edit.png" />
+		<a href="viewenquiry.php?id=<?php echo $r['eid']; ?>" class="myasimple" title="Edit">
+		 view
 		</a>
 		&nbsp;
-		<a onclick="return confirm('Are you sure you want to delete this record');" href="category.php?id=<?php echo $r['id'];?>&action=delete" class="myasimple" title="Delete">
+		<a onclick="return confirm('Are you sure you want to delete this record');" href="enquiry.php?id=<?php echo $r['eid'];?>&action=delete" class="myasimple" title="Delete">
 	     <img src="img/delete.png" />
 	    </a>
 	        		</td>
